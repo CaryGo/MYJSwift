@@ -22,8 +22,8 @@ extension UIButton {
      
      - returns: 对象
      */
-    class func createTitleButton(frame:CGRect,title:String?,titeleColol:UIColor?, backgroundColor:UIColor?, target:AnyObject?, action:Selector?)->UIButton {
-        let button:UIButton = UIButton(type: UIButtonType.Custom)
+    class func createTitleButton(_ frame:CGRect,title:String?,titeleColol:UIColor?, backgroundColor:UIColor?, target:AnyObject?, action:Selector?)->UIButton {
+        let button:UIButton = UIButton(type: UIButtonType.custom)
         button.configButton(frame, title: title, titeleColol: titeleColol, imageName: nil, selectImageName: nil, bgImageName: nil, backgroundColor: backgroundColor, target: target, action: action)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 4
@@ -40,7 +40,7 @@ extension UIButton {
      
      - returns: 按钮对象
      */
-    class func createButton(frame:CGRect, leftTitle:String?,rightImageName:String?, target:AnyObject, action:Selector )->UIButton {
+    class func createButton(_ frame:CGRect, leftTitle:String?,rightImageName:String?, target:AnyObject, action:Selector )->UIButton {
         return self.createButton(frame,  title: leftTitle, imageName: rightImageName, selectImageName: nil, target: target, action: action, backgroundImageName: nil)
     }
     
@@ -57,8 +57,8 @@ extension UIButton {
      
      - returns: 对象
      */
-    class func createButton(frame:CGRect,title:String?,imageName:String?, selectImageName:String?, target:AnyObject, action:Selector,  backgroundImageName:String?)->UIButton {
-        let button:UIButton = UIButton(type: UIButtonType.Custom)
+    class func createButton(_ frame:CGRect,title:String?,imageName:String?, selectImageName:String?, target:AnyObject, action:Selector,  backgroundImageName:String?)->UIButton {
+        let button:UIButton = UIButton(type: UIButtonType.custom)
         button.configButton(frame, title: title, titeleColol: nil, imageName: imageName, selectImageName: selectImageName, bgImageName: backgroundImageName, backgroundColor: nil, target: target, action: action)
         return button
     }
@@ -74,10 +74,10 @@ extension UIButton {
      
      - returns: 对象
      */
-    class func createRoundImageButton(frame:CGRect, title:String?, titleColor:UIColor?, backgroundColor:UIColor?, bgImageName:String?,target:AnyObject?, action:Selector?) ->UIButton {
-        let button:UIButton = UIButton(type: UIButtonType.Custom)
+    class func createRoundImageButton(_ frame:CGRect, title:String?, titleColor:UIColor?, backgroundColor:UIColor?, bgImageName:String?,target:AnyObject?, action:Selector?) ->UIButton {
+        let button:UIButton = UIButton(type: UIButtonType.custom)
         if bgImageName != nil {
-            button .setBackgroundImage(UIImage(named: bgImageName!), forState: UIControlState.Normal)
+            button .setBackgroundImage(UIImage(named: bgImageName!), for: UIControlState())
         }
         button.configButton(frame, title: title, titeleColol: titleColor, imageName: nil, selectImageName: nil, bgImageName: nil, backgroundColor: backgroundColor, target: target, action: action)
         button.layer.masksToBounds = true
@@ -85,14 +85,14 @@ extension UIButton {
         return button
     }
     ///只有背景图的按钮
-    class func createBgImageBtn(frame:CGRect ,bgImageName:String?,target:AnyObject?, action:Selector?)-> UIButton {
-        let btn = UIButton(type: UIButtonType.Custom)
+    class func createBgImageBtn(_ frame:CGRect ,bgImageName:String?,target:AnyObject?, action:Selector?)-> UIButton {
+        let btn = UIButton(type: UIButtonType.custom)
         if target != nil && action != nil {
-            btn.addTarget(target!, action: action!, forControlEvents: UIControlEvents.TouchUpInside)
+            btn.addTarget(target!, action: action!, for: UIControlEvents.touchUpInside)
         }
         if bgImageName != nil {
-            btn.setBackgroundImage(UIImage(named: bgImageName!), forState: UIControlState.Normal)
-            btn.setBackgroundImage(UIImage(named: bgImageName!), forState: UIControlState.Selected)
+            btn.setBackgroundImage(UIImage(named: bgImageName!), for: UIControlState())
+            btn.setBackgroundImage(UIImage(named: bgImageName!), for: UIControlState.selected)
         }
         return btn
     }
@@ -110,29 +110,29 @@ extension UIButton {
      - parameter target:          对象
      - parameter action:          触发事件
      */
-    func configButton(frame:CGRect,title:String?,titeleColol:UIColor?,imageName:String?, selectImageName:String?,bgImageName:String?, backgroundColor:UIColor?, target:AnyObject?, action:Selector?) {
+    func configButton(_ frame:CGRect,title:String?,titeleColol:UIColor?,imageName:String?, selectImageName:String?,bgImageName:String?, backgroundColor:UIColor?, target:AnyObject?, action:Selector?) {
         self.frame = frame
         if title != nil {
-            self.setTitle(title!, forState: UIControlState.Normal)
+            self.setTitle(title!, for: UIControlState())
         }
         if titeleColol != nil {
-            self.setTitleColor(titeleColol, forState: UIControlState.Normal)
+            self.setTitleColor(titeleColol, for: UIControlState())
         }
         if imageName != nil {
-            self.setImage(UIImage(named: imageName!), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: imageName!), for: UIControlState())
         }
         if selectImageName != nil {
-            self.setImage(UIImage(named: selectImageName!), forState: UIControlState.Selected)
+            self.setImage(UIImage(named: selectImageName!), for: UIControlState.selected)
         }
         if backgroundColor != nil {
             self.backgroundColor = backgroundColor
         }
         if bgImageName != nil {
-            self.setBackgroundImage(UIImage(named: bgImageName!), forState: UIControlState.Normal)
-            self.setBackgroundImage(UIImage(named: bgImageName!), forState: UIControlState.Selected)
+            self.setBackgroundImage(UIImage(named: bgImageName!), for: UIControlState())
+            self.setBackgroundImage(UIImage(named: bgImageName!), for: UIControlState.selected)
         }
         if target != nil && action != nil {
-            self.addTarget(target!, action: action!, forControlEvents: UIControlEvents.TouchUpInside)
+            self.addTarget(target!, action: action!, for: UIControlEvents.touchUpInside)
         }
     }
 }

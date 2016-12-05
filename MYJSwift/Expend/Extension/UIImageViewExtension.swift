@@ -17,13 +17,13 @@ extension UIImageView {
      - parameter imageName: 图片名
      - returns: 对象
      */
-    class func createImageView(frame:CGRect, imageName:String?)->UIImageView {
+    class func createImageView(_ frame:CGRect, imageName:String?)->UIImageView {
         let imageView:UIImageView = UIImageView(frame: frame)
         if imageName != nil {
             imageView.image = UIImage(named: imageName!)
-            imageView.contentMode = UIViewContentMode.Center
+            imageView.contentMode = UIViewContentMode.center
         }
-        imageView.userInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
         return imageView
     }
     /**
@@ -42,57 +42,57 @@ extension UIImageView {
 
 extension UIImage{
     //裁剪指定区域的图片
-    func croppedImage(bound : CGRect) -> UIImage
+    func croppedImage(_ bound : CGRect) -> UIImage
     {
-        let scaledBounds : CGRect = CGRectMake(bound.origin.x * self.scale, bound.origin.y * self.scale, bound.size.width * self.scale, bound.size.height * self.scale)
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, scaledBounds)
-        let croppedImage : UIImage = UIImage(CGImage: imageRef!, scale: self.scale, orientation: UIImageOrientation.Up)
+        let scaledBounds : CGRect = CGRect(x: bound.origin.x * self.scale, y: bound.origin.y * self.scale, width: bound.size.width * self.scale, height: bound.size.height * self.scale)
+        let imageRef = self.cgImage?.cropping(to: scaledBounds)
+        let croppedImage : UIImage = UIImage(cgImage: imageRef!, scale: self.scale, orientation: UIImageOrientation.up)
         return croppedImage;
     }
     
     /// 按尺寸裁剪图片大小
-    class func imageClipToNewImage(image: UIImage, newSize: CGSize) -> UIImage {
+    class func imageClipToNewImage(_ image: UIImage, newSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContext(newSize)
-        image.drawInRect(CGRect(origin: CGPointZero, size: newSize))
+        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return newImage
+        return newImage!
     }
     
     /// 将传入的图片裁剪成带边缘的原型图片
-    class func imageWithClipImage(image: UIImage, borderWidth: CGFloat, borderColor: UIColor) -> UIImage {
+    class func imageWithClipImage(_ image: UIImage, borderWidth: CGFloat, borderColor: UIColor) -> UIImage {
         let imageWH = image.size.width
         //        let border = borderWidth
         let ovalWH = imageWH + 2 * borderWidth
         
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(ovalWH, ovalWH), false, 0)
-        let path = UIBezierPath(ovalInRect: CGRectMake(0, 0, ovalWH, ovalWH))
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: ovalWH, height: ovalWH), false, 0)
+        let path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: ovalWH, height: ovalWH))
         borderColor.set()
         path.fill()
         
-        let clipPath = UIBezierPath(ovalInRect: CGRectMake(borderWidth, borderWidth, imageWH, imageWH))
+        let clipPath = UIBezierPath(ovalIn: CGRect(x: borderWidth, y: borderWidth, width: imageWH, height: imageWH))
         clipPath.addClip()
-        image.drawAtPoint(CGPointMake(borderWidth, borderWidth))
+        image.draw(at: CGPoint(x: borderWidth, y: borderWidth))
         
         let clipImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return clipImage
+        return clipImage!
     }
     
     /// 将传入的图片裁剪成圆形图片
     func imageClipOvalImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
         let ctx = UIGraphicsGetCurrentContext()
-        let rect = CGRectMake(0, 0, self.size.width, self.size.height)
-        CGContextAddEllipseInRect(ctx, rect)
+        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        ctx?.addEllipse(in: rect)
         
-        CGContextClip(ctx)
-        self.drawInRect(rect)
+        ctx?.clip()
+        self.draw(in: rect)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
     
     /**
@@ -103,22 +103,22 @@ extension UIImage{
      
      - returns: 压缩后的图片
      */
-    class func scaleImage(image:UIImage,scaleFloat:CGFloat) -> UIImage
+    class func scaleImage(_ image:UIImage,scaleFloat:CGFloat) -> UIImage
     {
-        let size = CGSizeMake(image.size.width * scaleFloat, image.size.height * scaleFloat);
+        let size = CGSize(width: image.size.width * scaleFloat, height: image.size.height * scaleFloat);
         
         UIGraphicsBeginImageContext(size);
         let context = UIGraphicsGetCurrentContext()
-        var transform = CGAffineTransformIdentity
+        var transform = CGAffineTransform.identity
         
-        transform = CGAffineTransformScale(transform, scaleFloat, scaleFloat);
-        CGContextConcatCTM(context, transform);
+        transform = transform.scaledBy(x: scaleFloat, y: scaleFloat);
+        context?.concatenate(transform);
         
         // Draw the image into the transformed context and return the image
-        image.drawAtPoint(CGPointMake(0.0, 0.0))
+        image.draw(at: CGPoint(x: 0.0, y: 0.0))
         let newimg = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newimg;
+        return newimg!;
     }
 }

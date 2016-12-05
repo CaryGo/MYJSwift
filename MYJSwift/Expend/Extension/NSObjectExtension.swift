@@ -27,7 +27,7 @@ import UIKit
  - parameter method:  拿到当前的方法名称
  - parameter line:    拿到当前的行号
  */
-func ZNLog<T>(message:T, file: NSString = __FILE__, method: String = __FUNCTION__, line: Int = __LINE__) {
+func ZNLog<T>(_ message:T, file: NSString = #file, method: String = #function, line: Int = #line) {
     
     #if DEBUG
         print("\(method)[\(line)]: \(message)")
@@ -47,19 +47,19 @@ extension NSObject {
      - parameter delay: 延迟时间 秒为单位
      - parameter block: block回调
      */
-    func performClosureAfterDelay(delay: Int, block:() -> Void) {
+    func performClosureAfterDelay(_ delay: Int, block:@escaping () -> Void) {
         let delay64 = Int64(delay)
         let nano64 = Int64(NSEC_PER_SEC)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay64 * nano64))
+        let delayTime = DispatchTime.now() + Double(Int64(delay64 * nano64)) / Double(NSEC_PER_SEC)
         
-        dispatch_after(delayTime, dispatch_get_main_queue(), block)
+        DispatchQueue.main.asyncAfter(deadline: delayTime, execute: block)
     }
     
     //json字典 转 字符串  网络请求 输入参数时使用
-    func toJSONString(dict:NSDictionary!)->NSString{
+    func toJSONString(_ dict:NSDictionary!)->NSString{
         do {
-            let data = try NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.PrettyPrinted)
-            let strJson = NSString(data: data, encoding: NSUTF8StringEncoding)
+            let data = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions.prettyPrinted)
+            let strJson = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             return strJson!
         } catch {
             ZNLog(error)

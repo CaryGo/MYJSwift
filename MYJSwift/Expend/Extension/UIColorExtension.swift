@@ -172,10 +172,10 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func colorWithHex(hex:UInt32, alpha:Float = 1.0) -> UIColor {
+    class func colorWithHex(_ hex:UInt32, alpha:Float = 1.0) -> UIColor {
         var red:Float = 0.0, green:Float = 0.0, blue:Float = 0.0, nAlpha:Float = alpha
         let hexString:String = String(format: "%03X", arguments: [UInt32(hex)])
-        let length:Int = hexString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let length:Int = hexString.lengthOfBytes(using: String.Encoding.utf8)
         switch length {
         case 3:
             red = Float(Float((hex >> 8) & 0xF)/15.0)
@@ -210,10 +210,11 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func colorWithHexString(string:String, alpha:Float = 1.0) -> UIColor {
-        let colorString = string.stringByReplacingOccurrencesOfString("#", withString: "", options: [], range: nil).uppercaseString
+    class func colorWithHexString(_ string:String, alpha:Float = 1.0) -> UIColor {
+        
+        let colorString = string.replacingOccurrences(of: "#", with: "", options: [], range: nil).uppercased();
         var red:Float = 0.0, green:Float = 0.0, blue:Float = 0.0, nAlpha:Float = alpha
-        let length:Int = colorString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let length:Int = colorString.lengthOfBytes(using: String.Encoding.utf8)
         switch length {
         case 3:
             red   = self.colorHexComponent(colorString, start: 0, length: 1)
@@ -240,12 +241,12 @@ extension UIColor {
     }
     
     //颜色16进制
-    class func colorHexComponent(string:String, start:Int, length:Int) -> Float {
+    class func colorHexComponent(_ string:String, start:Int, length:Int) -> Float {
         let subString = string.sub(start, length: length)
         let fullHex = length == 2 ? subString : String(format: "%@%@", arguments: [subString, subString])
         var hexComponent:UInt32 = UInt32()
         //        NSScanner.scannerWithString(fullHex).scanHexInt(&hexComponent)
-        NSScanner(string: fullHex).scanHexInt(&hexComponent)
+        Scanner(string: fullHex).scanHexInt32(&hexComponent)
         return Float(hexComponent)/255.0
     }
     
@@ -257,21 +258,21 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func randomColor(alpha:Float = 1.0) -> UIColor {
+    class func randomColor(_ alpha:Float = 1.0) -> UIColor {
         var red:Float = 0.0, green:Float = 0.0, blue:Float = 0.0
         var generated = false
         if generated == false {
             generated = true
             srandom(CUnsignedInt(time(nil)))
         }
-        red = Float(random())/Float(RAND_MAX)
-        green = Float(random())/Float(RAND_MAX)
-        blue = Float(random())/Float(RAND_MAX)
+        red = Float(arc4random())/Float(RAND_MAX)
+        green = Float(arc4random())/Float(RAND_MAX)
+        blue = Float(arc4random())/Float(RAND_MAX)
         return self.init(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: CGFloat(alpha))
     }
     
     //设置颜色
-    class func colorWith(red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
+    class func colorWith(_ red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
         let color = UIColor(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: alpha)
         return color
     }
@@ -283,21 +284,21 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func colorWithRGB(rgb:String) -> UIColor {
-        var rgbValue = rgb.lowercaseString
+    class func colorWithRGB(_ rgb:String) -> UIColor {
+        var rgbValue = rgb.lowercased()
         if !rgbValue.hasPrefix("rgb") {
             return self.init()
         }
-        rgbValue = rgbValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"rgba( )"))
-        let values:[String] = rgbValue.componentsSeparatedByString(",")
+        rgbValue = rgbValue.trimmingCharacters(in: CharacterSet(charactersIn:"rgba( )"))
+        let values:[String] = rgbValue.components(separatedBy: ",")
         let hasAlpha = values.count == 4
         if values.count == 3 || hasAlpha {
             var hue:CFloat = CFloat(), saturation:CFloat = CFloat(), brightness:CFloat = CFloat(), alpha:CFloat = 1.0
-            NSScanner(string: values[0]).scanFloat(&hue)
-            NSScanner(string: values[1]).scanFloat(&saturation)
-            NSScanner(string: values[2]).scanFloat(&brightness)
+            Scanner(string: values[0]).scanFloat(&hue)
+            Scanner(string: values[1]).scanFloat(&saturation)
+            Scanner(string: values[2]).scanFloat(&brightness)
             if hasAlpha {
-                NSScanner(string: values[3]).scanFloat(&alpha)
+                Scanner(string: values[3]).scanFloat(&alpha)
             }
             return self.init(hue: CGFloat(hue/255.0), saturation: CGFloat(saturation/255.0), brightness: CGFloat(brightness/255.0), alpha: CGFloat(alpha))
         }
@@ -315,14 +316,14 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func colorWithCSS(css:String) -> UIColor {
+    class func colorWithCSS(_ css:String) -> UIColor {
         if css.hasPrefix("rgb") {
             return colorWithRGB(css)
         } else if css.hasPrefix("hsl") {
             return colorWithHSL(css)
         } else if css.hasPrefix("0x") {
             var hexInt:UInt32 = UInt32()
-            NSScanner(string: css).scanHexInt(&hexInt)
+            Scanner(string: css).scanHexInt32(&hexInt)
             return colorWithHex(hexInt)
         } else {
             return colorWithHexString(css)
@@ -336,21 +337,21 @@ extension UIColor {
      
      - returns: 颜色对象
      */
-    class func colorWithHSL(hsl:String) -> UIColor {
-        var hslValue = hsl.lowercaseString
+    class func colorWithHSL(_ hsl:String) -> UIColor {
+        var hslValue = hsl.lowercased()
         if !hslValue.hasPrefix("hsl") {
             return self.init()
         }
-        hslValue = hslValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"hsla(%) "))
-        let values:[String] = hslValue.componentsSeparatedByString(",")
+        hslValue = hslValue.trimmingCharacters(in: CharacterSet(charactersIn:"hsla(%) "))
+        let values:[String] = hslValue.components(separatedBy: ",")
         let hasAlpha = values.count == 4
         if values.count == 3 || hasAlpha {
             var hue:CFloat = CFloat(), saturation:CFloat = CFloat(), brightness:CFloat = CFloat(), alpha:CFloat = 1.0
-            NSScanner(string: values[0]).scanFloat(&hue)
-            NSScanner(string: values[1]).scanFloat(&saturation)
-            NSScanner(string: values[2]).scanFloat(&brightness)
+            Scanner(string: values[0]).scanFloat(&hue)
+            Scanner(string: values[1]).scanFloat(&saturation)
+            Scanner(string: values[2]).scanFloat(&brightness)
             if hasAlpha {
-                NSScanner(string: values[3]).scanFloat(&alpha)
+                Scanner(string: values[3]).scanFloat(&alpha)
             }
             return self.init(hue: CGFloat(hue/255.0), saturation: CGFloat(saturation/255.0), brightness: CGFloat(brightness/255.0), alpha: CGFloat(alpha))
             

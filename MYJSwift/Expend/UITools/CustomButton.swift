@@ -11,9 +11,9 @@ import UIKit
 class CustomButton: ContentTopImageBottomText {
     lazy var desLabel:UILabel = {
         let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.width, height: 20))
-        label.textColor = UIColor.whiteColor()
-        label.font = UIFont.systemFontOfSize(13)
-        label.textAlignment = NSTextAlignment.Center
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textAlignment = NSTextAlignment.center
         return label
     }()
     override init(frame: CGRect) {
@@ -22,15 +22,15 @@ class CustomButton: ContentTopImageBottomText {
         self.layer.masksToBounds = true
         //取消选中时的高亮
         self.adjustsImageWhenHighlighted = false;
-        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.white, for: UIControlState())
         addSubview(desLabel)
     }
     
-    func configButton(title: String, imageName: String, backgroundColor: UIColor?,desText:String,target: AnyObject, action: Selector) {
-        self.setImage(UIImage(named: imageName), forState: UIControlState.Normal)
-        self.setTitle(title, forState: UIControlState.Normal)
+    func configButton(_ title: String, imageName: String, backgroundColor: UIColor?,desText:String,target: AnyObject, action: Selector) {
+        self.setImage(UIImage(named: imageName), for: UIControlState())
+        self.setTitle(title, for: UIControlState())
         self.backgroundColor = backgroundColor
-        self.addTarget(target, action: action, forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(target, action: action, for: UIControlEvents.touchUpInside)
 
         self.desLabel.text = desText
     }
@@ -39,7 +39,7 @@ class CustomButton: ContentTopImageBottomText {
         self.titleLabel!.setTop(self.titleLabel!.top-10)
         self.imageView!.setTop(self.imageView!.top-10)
     //添加说明文字
-        self.desLabel.frame = CGRectMake(0, self.titleLabel!.bottom, self.width, 20)
+        self.desLabel.frame = CGRect(x: 0, y: self.titleLabel!.bottom, width: self.width, height: 20)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,9 +52,9 @@ class TextImageButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        titleLabel?.font = UIFont.systemFontOfSize(16)
-        titleLabel?.contentMode = UIViewContentMode.Center
-        imageView?.contentMode = UIViewContentMode.Left
+        titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        titleLabel?.contentMode = UIViewContentMode.center
+        imageView?.contentMode = UIViewContentMode.left
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,8 +64,8 @@ class TextImageButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         titleLabel?.sizeToFit()
-        titleLabel?.frame = CGRectMake(-5, 0, titleLabel!.width, height)
-        imageView?.frame = CGRectMake(titleLabel!.width + 3 - 5, 0, width - titleLabel!.width - 3, height)
+        titleLabel?.frame = CGRect(x: -5, y: 0, width: titleLabel!.width, height: height)
+        imageView?.frame = CGRect(x: titleLabel!.width + 3 - 5, y: 0, width: width - titleLabel!.width - 3, height: height)
     }
 }
 /// MARK: - 自定义button  图片文字居中 图片在上文字在下
@@ -95,6 +95,6 @@ class ContentTopImageBottomText:UIButton {
         newFrame.size.width = self.frame.size.width;
         
         self.titleLabel!.frame = newFrame;
-        self.titleLabel!.textAlignment = NSTextAlignment.Center;
+        self.titleLabel!.textAlignment = NSTextAlignment.center;
     }
 }

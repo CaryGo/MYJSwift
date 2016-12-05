@@ -13,7 +13,7 @@ class CallViewController: JSBaseViewController {
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.barTintColor = UIColor.colorWithHexString("c0de76")
     }
@@ -25,11 +25,11 @@ class CallViewController: JSBaseViewController {
     }
     
     func initUI() {
-        let nurseBtn:UIButton = UIButton.init(type: .System)
-        nurseBtn.setTitle("医护站", forState: .Normal)
-        nurseBtn.setImage(UIImage.init(named: "chat_video_play"), forState: .Normal)
-        nurseBtn.titleLabel?.font = UIFont.systemFontOfSize(15)
-        nurseBtn.frame = CGRectMake(imageView.width/2.0-20, imageView.height/2.0-20, 40, 40)
+        let nurseBtn:UIButton = UIButton.init(type: .system)
+        nurseBtn.setTitle("医护站", for: UIControlState())
+        nurseBtn.setImage(UIImage.init(named: "chat_video_play"), for: UIControlState())
+        nurseBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        nurseBtn.frame = CGRect(x: imageView.width/2.0-20, y: imageView.height/2.0-20, width: 40, height: 40)
         imageView.addSubview(nurseBtn)
     }
 
@@ -37,10 +37,10 @@ class CallViewController: JSBaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func action1(sender: AnyObject) {
+    @IBAction func action1(_ sender: AnyObject) {
         let vc:LoginViewController! = LoginViewController()
 //        self.navigationController?.pushViewController(vc, animated: true)
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
 

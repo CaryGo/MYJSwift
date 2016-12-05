@@ -20,9 +20,9 @@ extension String{
     }
     
     /// string转为Float
-    var floatValue: Float? {return NSNumberFormatter().numberFromString(self)?.floatValue}
+    var floatValue: Float? {return NumberFormatter().number(from: self)?.floatValue}
     /// string转为Double
-    var doubleValue: Double? {return NSNumberFormatter().numberFromString(self)?.doubleValue}
+    var doubleValue: Double? {return NumberFormatter().number(from: self)?.doubleValue}
     
     /**
      字符串截取 从第几位开始 长度为几位的字符串
@@ -32,13 +32,13 @@ extension String{
      
      - returns: 字符串对象
      */
-    func sub(start: Int, length: Int) -> String {
+    func sub(_ start: Int, length: Int) -> String {
         assert(start >= 0)
         assert(length >= 0)
         assert(start <= self.characters.count - 1)
         assert(start + length <= self.characters.count)
-        let a = (self as NSString).substringFromIndex(start)
-        let b = (a as NSString).substringToIndex(length)
+        let a = (self as NSString).substring(from: start)
+        let b = (a as NSString).substring(to: length)
         return b
     }
     
@@ -50,9 +50,9 @@ extension String{
      
      - returns: 是否包含
      */
-    func containsString(s:String) -> Bool
+    func containsString(_ s:String) -> Bool
     {
-        if(self.rangeOfString(s) != nil)
+        if(self.range(of: s) != nil)
         {
             return true
         }
@@ -74,9 +74,9 @@ extension String{
      
      - returns: 是否包含
      */
-    func containsString(s:String, compareOption: NSStringCompareOptions) -> Bool
+    func containsString(_ s:String, compareOption: NSString.CompareOptions) -> Bool
     {
-        if((self.rangeOfString(s, options: compareOption)) != nil)
+        if((self.range(of: s, options: compareOption)) != nil)
         {
             return true
         }
@@ -105,7 +105,7 @@ extension String{
     func isValidateEmail() -> Bool {
         let emailRegex: String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         let emailTest: NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailTest.evaluateWithObject(self)
+        return emailTest.evaluate(with: self)
     }
     
     /// 判断是否是手机号
@@ -119,7 +119,7 @@ extension String{
         let phoneTest1 = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         let phoneTest2 = NSPredicate(format: "SELF MATCHES %@", fixed)
         
-        if phoneTest1.evaluateWithObject(self) == true || phoneTest2.evaluateWithObject(self) == true{
+        if phoneTest1.evaluate(with: self) == true || phoneTest2.evaluate(with: self) == true{
             return true
         }else{
             return false
@@ -131,28 +131,28 @@ extension String{
     func isValidateEnglish() -> Bool {
         let deuRegex = "^[A-Za-z0-9]+$"
         let deuTest = NSPredicate(format: "SELF MATCHES %@", deuRegex)
-        return deuTest.evaluateWithObject(self)
+        return deuTest.evaluate(with: self)
     }
     
     /// 判断是否是中文
     func isValidateChinese() -> Bool {
         let phoneRegex: String = "^[\\u4E00-\\u9FA5]*$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
-        return phoneTest.evaluateWithObject(self)
+        return phoneTest.evaluate(with: self)
     }
     
     //验证单个字符 是否是数字
     func charIsNum() -> Bool {
         let deuRegex = "[0-9]"
         let deuTest = NSPredicate(format: "SELF MATCHES %@", deuRegex)
-        return deuTest.evaluateWithObject(self)
+        return deuTest.evaluate(with: self)
     }
     
     //验证是否为小数
     func isDecimal() -> Bool {
         let deuRegex = "/^(\\-|\\+)?\\d*\\.\\d+|\\d+\\.\\d*|[1-9]\\d*$/"
         let deuTest = NSPredicate(format: "SELF MATCHES %@", deuRegex)
-        return deuTest.evaluateWithObject(self)
+        return deuTest.evaluate(with: self)
     }
     
     /**
@@ -162,7 +162,7 @@ extension String{
      */
     func isAllDigit() -> Bool {
         for uni in unicodeScalars{
-            if NSCharacterSet.decimalDigitCharacterSet().longCharacterIsMember(uni.value){
+            if CharacterSet.decimalDigits.contains(UnicodeScalar(uni.value)!){
                 continue
             }
             return false
@@ -183,8 +183,8 @@ extension String{
     //字符串中数字转为*
     func stringIntoDigitalSignal() -> String {
         var newStr = ""
-        for var i = 0 ; i < self.length; i++ {
-            let s = (self as NSString).substringWithRange(NSMakeRange(i, 1))
+        for i in 0  ..< self.length {
+            let s = (self as NSString).substring(with: NSMakeRange(i, 1))
             var newS = s
             if s.charIsNum() {
                 newS = "*"
@@ -202,16 +202,16 @@ extension String{
         if self.length <= 3 {
             return self
         }
-        let footerStr = (self as NSString).substringFromIndex(self.length-4)
-        let headerStr = (self as NSString).substringToIndex(3)
+        let footerStr = (self as NSString).substring(from: self.length-4)
+        let headerStr = (self as NSString).substring(to: 3)
         let phoneStr = "\(headerStr)****\(footerStr)"
         return phoneStr
     }
 
     
     /// 将字符串转换成经纬度
-    func stringToCLLocationCoordinate2D(separator: String) -> CLLocationCoordinate2D? {
-        let arr = self.componentsSeparatedByString(separator)
+    func stringToCLLocationCoordinate2D(_ separator: String) -> CLLocationCoordinate2D? {
+        let arr = self.components(separatedBy: separator)
         if arr.count != 2 {
             return nil
         }
@@ -225,11 +225,11 @@ extension String{
     //小数位数过长 截取后两位
     func stringXiaoShuLiangWei() -> String {
         var str = ""
-        if ((self as NSString).rangeOfString(".").location != NSNotFound) {
-            let arr =  self.componentsSeparatedByString(".")
+        if ((self as NSString).range(of: ".").location != NSNotFound) {
+            let arr =  self.components(separatedBy: ".")
             let strLast = arr.last
             if (strLast!.length >= 3) {
-                let str1 = (strLast! as NSString).substringToIndex(2)
+                let str1 = (strLast! as NSString).substring(to: 2)
                 let num:Int = Int(str1)!+1
                 str = "\(arr.first!).\(num)"
             }else{
@@ -248,7 +248,7 @@ extension String{
      
      - returns: 文字
      */
-    static func distanceConversion(distance:Double) -> String {
+    static func distanceConversion(_ distance:Double) -> String {
         let s = String(format:"%0.0f",distance)
         var str = "\(s)米"
         if distance > 1000 {
@@ -271,7 +271,7 @@ extension String{
         let regex = "(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])"
         //    let regex = "((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|[1-9])";
         let ipTest = NSPredicate(format: "SELF MATCHES %@", regex)
-        return ipTest.evaluateWithObject(self)
+        return ipTest.evaluate(with: self)
     }
 
 }

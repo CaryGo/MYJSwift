@@ -16,8 +16,8 @@ class CustomTabBarController: UITabBarController {
     var tabBarView: UIImageView!
     var selectedView: UIImageView!
     var pressBtn: CustomBtn!
-    let kScreenW = UIScreen.mainScreen().bounds.size.width
-    let kScreenH = UIScreen.mainScreen().bounds.size.height
+    let kScreenW = UIScreen.main.bounds.size.width
+    let kScreenH = UIScreen.main.bounds.size.height
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +28,8 @@ class CustomTabBarController: UITabBarController {
          3.选中视图的滑动
          */
         
-        tabBarView = UIImageView(frame: CGRectMake(0, 0, kScreenW, 49))
-        tabBarView.userInteractionEnabled = true
+        tabBarView = UIImageView(frame: CGRect(x: 0, y: 0, width: kScreenW, height: 49))
+        tabBarView.isUserInteractionEnabled = true
         self.tabBar.addSubview(tabBarView)
         
     }
@@ -40,7 +40,7 @@ class CustomTabBarController: UITabBarController {
     func removeTabBarButton() {
         
         for view in self.tabBar.subviews {
-            if view.isKindOfClass(NSClassFromString("UITabBarButton")!) {
+            if view.isKind(of: NSClassFromString("UITabBarButton")!) {
                 //移除
                 view.removeFromSuperview()
             }
@@ -48,13 +48,13 @@ class CustomTabBarController: UITabBarController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //移除原生的btn
         removeTabBarButton()
     }
     
-    override func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
+    override func setViewControllers(_ viewControllers: [UIViewController]?, animated: Bool) {
         super.setViewControllers(viewControllers, animated: animated)
         //创建自定义的btn
         createCustomBtn()
@@ -71,7 +71,7 @@ class CustomTabBarController: UITabBarController {
         let w: CGFloat = kScreenW / count
         let h: CGFloat = 45
         
-        selectedView = UIImageView(frame: CGRectMake(x, y, w, h))
+        selectedView = UIImageView(frame: CGRect(x: x, y: y, width: w, height: h))
         selectedView.image = self.selectedImg
         tabBarView.addSubview(selectedView)
         
@@ -79,10 +79,10 @@ class CustomTabBarController: UITabBarController {
             //获取到tabBarItem对应的子控制器
             let vc = self.viewControllers![i]
             //创建btn，并设置frame，与传入对应子控制器的tabBarItem属性
-            let btn = CustomBtn(frame: CGRectMake(CGFloat(i) * kScreenW / count, 0, kScreenW / count, 49), tabBarItem: vc.tabBarItem)
+            let btn = CustomBtn(frame: CGRect(x: CGFloat(i) * kScreenW / count, y: 0, width: kScreenW / count, height: 49), tabBarItem: vc.tabBarItem)
             
             //添加btn的点击方法
-            btn.addTarget(self, action: #selector(btnAct), forControlEvents: .TouchUpInside)
+            btn.addTarget(self, action: #selector(btnAct), for: .touchUpInside)
             
             if i == self.selectCount {
                 btn.imgV.image = btn.item.selectedImage
@@ -97,7 +97,7 @@ class CustomTabBarController: UITabBarController {
         
     }
     
-    func btnAct(btn: CustomBtn) {
+    func btnAct(_ btn: CustomBtn) {
         
         //获取btn的下标
         let index = btn.tag - 100
@@ -129,10 +129,10 @@ class CustomTabBarController: UITabBarController {
         //通过下标实现页面切换
         self.selectedIndex = index
         
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             //设置选中图片的中心点和被点击btn的中心点相同
             self.selectedView.center = btn.center
-        }
+        }) 
         
         pressBtn = btn
         

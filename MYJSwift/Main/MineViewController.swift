@@ -15,9 +15,9 @@ class MineViewController: JSBaseViewController {
 
         title = "我的"
         let label:UILabel = UILabel.init()
-        label.frame = CGRectMake(100, 100, 100, 100)
+        label.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
         label.text = "天上的星星不说话"
-        label.textColor = UIColor.redColor()
+        label.textColor = UIColor.red
 
         self.view.addSubview(label)
         // Do any additional setup after loading the view.

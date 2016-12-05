@@ -9,25 +9,25 @@
 import UIKit
 
 //屏幕宽高
-let screen_Width = UIScreen.mainScreen().bounds.width
-let screen_Height = UIScreen.mainScreen().bounds.height
-let screen_Bounds: CGRect = UIScreen.mainScreen().bounds
+let screen_Width = UIScreen.main.bounds.width
+let screen_Height = UIScreen.main.bounds.height
+let screen_Bounds: CGRect = UIScreen.main.bounds
 
 
 extension UIView {
     //以6为基础 等比宽高
-    func fixedHeight(height:CGFloat)->CGFloat{
-        return  height/(667/UIScreen.mainScreen().bounds.height)
+    func fixedHeight(_ height:CGFloat)->CGFloat{
+        return  height/(667/UIScreen.main.bounds.height)
     }
     
-    func fixedWidth(width:CGFloat) -> CGFloat {
-        return width/(375/UIScreen.mainScreen().bounds.width)
+    func fixedWidth(_ width:CGFloat) -> CGFloat {
+        return width/(375/UIScreen.main.bounds.width)
     }
     
     ///获得左边的距离
     var left: CGFloat { return self.frame.origin.x }
     ///设置左边的距离 其他不变
-    func setLeft(x: CGFloat) {
+    func setLeft(_ x: CGFloat) {
         var frame: CGRect = self.frame
         frame.origin.x = x
         self.frame = frame
@@ -35,7 +35,7 @@ extension UIView {
     ///获得顶部距离
     var top: CGFloat { return self.frame.origin.y }
     ///设置顶部距离 其他不变
-    func setTop(y: CGFloat) {
+    func setTop(_ y: CGFloat) {
         var frame: CGRect = self.frame
         frame.origin.y = y
         self.frame = frame
@@ -43,7 +43,7 @@ extension UIView {
     ///获得控件右边距离
     var right: CGFloat { return self.frame.origin.x + self.frame.size.width }
     ///设置右边距离 其他不变
-    func setRight(right: CGFloat) {
+    func setRight(_ right: CGFloat) {
         var frame: CGRect = self.frame
         frame.origin.x = right - frame.size.width
         self.frame = frame
@@ -51,7 +51,7 @@ extension UIView {
     ///获得下部距离
     var bottom: CGFloat { return self.frame.origin.y + self.frame.size.height }
     ///设置下部距离 其他不变
-    func setBottom(bottom: CGFloat) {
+    func setBottom(_ bottom: CGFloat) {
         var frame: CGRect = self.frame
         frame.origin.y = bottom - frame.size.height
         self.frame = frame
@@ -59,7 +59,7 @@ extension UIView {
     ///获得视图的宽度
     var width: CGFloat { return self.frame.size.width }
     ///设置视图宽度 其他不变
-    func setWidth(width: CGFloat) {
+    func setWidth(_ width: CGFloat) {
         var frame: CGRect = self.frame
         frame.size.width = width
         self.frame = frame
@@ -67,7 +67,7 @@ extension UIView {
     ///获得高度
     var height: CGFloat { return self.frame.size.height }
     ///设置高度 其他不变
-    func setHeight(height: CGFloat) {
+    func setHeight(_ height: CGFloat) {
         var frame: CGRect = self.frame
         frame.size.height = height
         self.frame = frame
@@ -76,7 +76,7 @@ extension UIView {
     var origin: CGPoint { return self.frame.origin }
     
     ///设置左边和上部距离 其他不变
-    func setOrigin(origin: CGPoint) {
+    func setOrigin(_ origin: CGPoint) {
         var frame: CGRect = self.frame
         frame.origin = origin
         self.frame = frame
@@ -84,7 +84,7 @@ extension UIView {
     ///获得宽度和高度
     var size: CGSize { return self.frame.size }
     ///设置宽度和高度 其他不变
-    func setSize(size: CGSize) {
+    func setSize(_ size: CGSize) {
         var frame: CGRect = self.frame
         frame.size = size
         self.frame = frame
@@ -93,18 +93,18 @@ extension UIView {
      只改变中心点得x值
      - parameter x: x值
      */
-    func setCenterX(x:CGFloat)
+    func setCenterX(_ x:CGFloat)
     {
-        self.center = CGPointMake(x, self.center.y)
+        self.center = CGPoint(x: x, y: self.center.y)
     }
     /**
     只改变中心点的y值
     
     - parameter y: y值
     */
-    func setCenterY(y:CGFloat)
+    func setCenterY(_ y:CGFloat)
     {
-        self.center = CGPointMake(self.center.x, y)
+        self.center = CGPoint(x: self.center.x, y: y)
     }
     
     //裁剪成圆形
@@ -126,11 +126,11 @@ extension UIScrollView{
      
      - returns: 对象
      */
-    class func makeScrollView(frmae:CGRect, contentSize:CGSize)->UIScrollView{
+    class func makeScrollView(_ frmae:CGRect, contentSize:CGSize)->UIScrollView{
         let scrollView:UIScrollView = UIScrollView(frame: frmae)
         scrollView.contentSize = contentSize
         //翻页
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         //隐藏滚动态条
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false

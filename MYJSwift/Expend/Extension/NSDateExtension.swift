@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension NSDate{
+extension Date{
     /*
     //当前时间加上1天
     let date : NSDate = NSDate().dateByAddingTimeInterval(60 * 60 * 24)
@@ -20,7 +20,7 @@ extension NSDate{
     
     - returns: 天数
     */
-    func daysInBetweenDate(date: NSDate) -> Int
+    func daysInBetweenDate(_ date: Date) -> Int
     {
         var diff = self.timeIntervalSinceNow - date.timeIntervalSinceNow
         diff = fabs(diff/86400)
@@ -35,7 +35,7 @@ extension NSDate{
      
      - returns: 小时数
      */
-    func hoursInBetweenDate(date: NSDate) -> Int
+    func hoursInBetweenDate(_ date: Date) -> Int
     {
         var diff = self.timeIntervalSinceNow - date.timeIntervalSinceNow
         diff = fabs(diff/3600)
@@ -48,7 +48,7 @@ extension NSDate{
      
      - returns: 分数
      */
-    func minutesInBetweenDate(date: NSDate) -> Int
+    func minutesInBetweenDate(_ date: Date) -> Int
     {
         var diff = self.timeIntervalSinceNow - date.timeIntervalSinceNow
         diff = fabs(diff/60)
@@ -61,7 +61,7 @@ extension NSDate{
      
      - returns: 分数
      */
-    func secondsInBetweenDate(date: NSDate) -> Int
+    func secondsInBetweenDate(_ date: Date) -> Int
     {
         var diff = self.timeIntervalSinceNow - date.timeIntervalSinceNow
         diff = fabs(diff)
@@ -87,15 +87,15 @@ extension NSDate{
      
      - returns: 时间戳转为时间
      */
-    class func dateWithTimeIntervalInMilliSecondSince1970( timeIntervalInMilliSecond:Double)->NSString{
+    static func dateWithTimeIntervalInMilliSecondSince1970( _ timeIntervalInMilliSecond:Double)->NSString{
         var timeInterval:Double  = timeIntervalInMilliSecond
         if timeIntervalInMilliSecond > 140000000000 {
             timeInterval = timeIntervalInMilliSecond/1000
         }
         //加8小时 为时区转换
-        let ret:NSDate = NSDate(timeIntervalSince1970: timeInterval+8*60*60)
+        let ret:Date = Date(timeIntervalSince1970: timeInterval+8*60*60)
         let timeStr:String = "\(ret)" //长度25
-        let timeS:NSString = (timeStr as NSString).substringToIndex(timeStr.length-5)
+        let timeS:NSString = (timeStr as NSString).substring(to: timeStr.length-5) as NSString
         return timeS
     }
 
@@ -153,10 +153,10 @@ extension NSDate{
     
     - returns: 时间对象
     */
-    func dataChangeString(dateFormat:String = "yyyy:MM:dd HH:mm") -> String {
-        let dateFormatter:NSDateFormatter = NSDateFormatter()
+    func dataChangeString(_ dateFormat:String = "yyyy:MM:dd HH:mm") -> String {
+        let dateFormatter:DateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let destDateString = dateFormatter.stringFromDate(self)
+        let destDateString = dateFormatter.string(from: self)
         return destDateString;
     }
 }

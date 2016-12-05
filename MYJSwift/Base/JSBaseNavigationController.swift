@@ -16,16 +16,16 @@ class JSBaseNavigationController: UINavigationController,UINavigationControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textAttributes = [NSFontAttributeName:UIFont.systemFontOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]
+        let textAttributes = [NSFontAttributeName:UIFont.systemFont(ofSize: 18),NSForegroundColorAttributeName:UIColor.white]
         
         UINavigationBar.appearance().titleTextAttributes = textAttributes
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = kNavDefaultColor
-        UINavigationBar.appearance().translucent = true
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        UINavigationBar.appearance().isTranslucent = true
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
     }
     
-    override func pushViewController(viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if self.viewControllers.count>0 {
             viewController.hidesBottomBarWhenPushed = true
         }

@@ -10,7 +10,7 @@ import UIKit
 
 extension UILabel {
     //快速创建
-    class func createLabel(frame:CGRect, text:String, textColor:UIColor ,font:CGFloat?)->UILabel {
+    class func createLabel(_ frame:CGRect, text:String, textColor:UIColor ,font:CGFloat?)->UILabel {
         let label: UILabel = UILabel(frame: frame)
         label.text = text;
         label.numberOfLines = 0;
@@ -18,10 +18,10 @@ extension UILabel {
         //行数字体 按照大小进行自适应
         label.adjustsFontSizeToFitWidth = true
         //对齐方式
-        label.textAlignment = NSTextAlignment.Left
+        label.textAlignment = NSTextAlignment.left
         //单词折行
         if font != nil {
-            label.font = UIFont.systemFontOfSize(font!)
+            label.font = UIFont.systemFont(ofSize: font!)
         }
         return label
     }
@@ -33,17 +33,17 @@ extension UILabel {
      - parameter colorArr: 颜色数组
      - parameter fontArr:  字体大小数组
      */
-    func numberStrColol(strArr:[String], colorArr:[UIColor],fontArr:[CGFloat]) {
+    func numberStrColol(_ strArr:[String], colorArr:[UIColor],fontArr:[CGFloat]) {
         var overall = ""
-        for var i = 0; i < strArr.count ; i++ {
+        for i in 0 ..< strArr.count {
             overall += strArr[i]
         }
         let str = NSMutableAttributedString(string: overall)
         //设置颜色 字体
         var loc = 0
-        for var i = 0; i < strArr.count ; i++ {
+        for i in 0 ..< strArr.count {
             str.addAttribute(NSForegroundColorAttributeName, value: colorArr[i], range: NSRange.init(location: loc, length: strArr[i].length))
-            str.addAttribute(NSFontAttributeName, value:UIFont.systemFontOfSize(fontArr[i]), range: NSRange.init(location:loc,length:strArr[i].length))
+            str.addAttribute(NSFontAttributeName, value:UIFont.systemFont(ofSize: fontArr[i]), range: NSRange.init(location:loc,length:strArr[i].length))
             loc = loc + strArr[i].length
         }
         self.attributedText = str
@@ -58,17 +58,17 @@ extension UITextView {
      - parameter colorArr: 颜色数组
      - parameter fontArr:  字体大小数组
      */
-    func numberStrColol(strArr:[String], colorArr:[UIColor],fontArr:[CGFloat]) {
+    func numberStrColol(_ strArr:[String], colorArr:[UIColor],fontArr:[CGFloat]) {
         var overall = ""
-        for var i = 0; i < strArr.count ; i++ {
+        for i in 0 ..< strArr.count {
             overall += strArr[i]
         }
         let str = NSMutableAttributedString(string: overall)
         //设置颜色 字体
         var loc = 0
-        for var i = 0; i < strArr.count ; i++ {
+        for i in 0 ..< strArr.count {
             str.addAttribute(NSForegroundColorAttributeName, value: colorArr[i], range: NSRange.init(location: loc, length: strArr[i].length))
-            str.addAttribute(NSFontAttributeName, value:UIFont.systemFontOfSize(fontArr[i]), range: NSRange.init(location:loc,length:strArr[i].length))
+            str.addAttribute(NSFontAttributeName, value:UIFont.systemFont(ofSize: fontArr[i]), range: NSRange.init(location:loc,length:strArr[i].length))
             loc = loc + strArr[i].length
         }
         self.attributedText = str

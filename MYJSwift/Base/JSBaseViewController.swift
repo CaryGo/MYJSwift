@@ -18,7 +18,7 @@ class JSBaseViewController: UIViewController {
     func searchAction()  {
         print("searchAction")
     }
-    override func viewWillAppear(animated: Bool) {
+    func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
     }
     override func viewDidLoad() {

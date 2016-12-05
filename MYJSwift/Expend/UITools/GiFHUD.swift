@@ -13,16 +13,16 @@ import UIKit
 
 class GiFHUD: UIView {
     //hud的背景View
-    private lazy var bgView:UIView = {
-        let tmpView = UIView.init(frame: CGRectMake(0, 0, 100, 100))
-        tmpView.backgroundColor = UIColor.clearColor()
+    fileprivate lazy var bgView:UIView = {
+        let tmpView = UIView.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        tmpView.backgroundColor = UIColor.clear
         return tmpView
     }()
     //图片
     lazy var imageView:UIImageView = {
-        let imageV = UIImageView(frame: CGRectMake(0, 0, 100, 100))
+        let imageV = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         imageV.image = UIImage(named: "logo80")
-        imageV.contentMode = UIViewContentMode.Center
+        imageV.contentMode = UIViewContentMode.center
         return imageV
     }()
     
@@ -40,29 +40,29 @@ class GiFHUD: UIView {
     /**
      显示控件
      */
-    class func showWithOverlay(vc:UIViewController) {
+    class func showWithOverlay(_ vc:UIViewController) {
         //        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
         let hud = GiFHUD()
         //        window.addSubview(hud)
         //        window.bringSubviewToFront(hud)
         
         //        hud.center = CGPointMake(vc.view.frame.origin.x, vc.view.frame.origin.y-20)
-        if vc.navigationController?.navigationBar.hidden == true {
+        if vc.navigationController?.navigationBar.isHidden == true {
             hud.frame = vc.view.frame
-            hud.bgView.center = CGPointMake(hud.center.x, hud.center.y)
+            hud.bgView.center = CGPoint(x: hud.center.x, y: hud.center.y)
         }else{
             hud.frame = vc.view.frame
             hud.setTop(0)
-            hud.bgView.center = CGPointMake(hud.center.x, hud.center.y-64)
+            hud.bgView.center = CGPoint(x: hud.center.x, y: hud.center.y-64)
         }
         vc.view.addSubview(hud)
     }
     
-    class func dismiss(vc:UIViewController) {
+    class func dismiss(_ vc:UIViewController) {
         //        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
         //         let hud = GiFHUD()
         for vie in  vc.view.subviews {
-            if vie.isKindOfClass(GiFHUD) {
+            if vie.isKind(of: GiFHUD.self) {
                 vie.removeFromSuperview()
                 return
             }
@@ -70,7 +70,7 @@ class GiFHUD: UIView {
     }
     // MARK: - 永久旋转360度
     /*旋转360度*/
-    func xuanZhuan(view:UIView) {
+    func xuanZhuan(_ view:UIView) {
         let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         
         // 设定动画选项
@@ -79,11 +79,11 @@ class GiFHUD: UIView {
         
         // 设定旋转角度
         
-        animation.fromValue = NSNumber(float: 0.0) // 起始角度
+        animation.fromValue = NSNumber(value: 0.0 as Float) // 起始角度
         NSLog("\(Float(2) * Float(M_PI))")
-        animation.toValue = NSNumber(float:Float(2) * Float(M_PI)) // 终止角度
+        animation.toValue = NSNumber(value: Float(2) * Float(M_PI) as Float) // 终止角度
         
         // 添加动画
-        view.layer.addAnimation(animation, forKey: "rotate-layer")
+        view.layer.add(animation, forKey: "rotate-layer")
     }
 }

@@ -23,7 +23,7 @@ extension UITextField {
      
      - returns: 输入框对象
      */
-    class func createTextField(frame:CGRect, leftImageName:String?, rightImageName:String?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType?)->UITextField {
+    class func createTextField(_ frame:CGRect, leftImageName:String?, rightImageName:String?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType?)->UITextField {
         let textfield = UITextField(frame: frame)
         textfield.configTextField(nil, leftTextColor: nil, rightText: nil, rightTextColor: nil,leftImageName:leftImageName, rightImageName: rightImageName, leftView: nil, rightView: nil, font: font, placheholder: placheholder, isPassWord: isPassWord, borderStyle: borderStyle, keyboardType: keyboardType)
 
@@ -44,7 +44,7 @@ extension UITextField {
      
      - returns: 输入框对象
      */
-    class func createTextFieldCustomView(frame:CGRect, leftView:UIView?, rightView:UIView?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType?)->UITextField {
+    class func createTextFieldCustomView(_ frame:CGRect, leftView:UIView?, rightView:UIView?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType?)->UITextField {
         let textfield = UITextField(frame: frame)
         textfield.configTextField(nil, leftTextColor: nil, rightText: nil, rightTextColor: nil, leftImageName: nil, rightImageName: nil, leftView: leftView, rightView: rightView, font: font, placheholder: placheholder, isPassWord: isPassWord, borderStyle: borderStyle, keyboardType: keyboardType)
         return textfield
@@ -63,16 +63,16 @@ extension UITextField {
      
      - returns: 对象
      */
-    class func createTextFieldunderLine(frame:CGRect, leftImageName:String?, rightImageName:String?, placheholder:String, font:CGFloat, isPassWord:Bool, keyboardType:UIKeyboardType?)->UITextField {
+    class func createTextFieldunderLine(_ frame:CGRect, leftImageName:String?, rightImageName:String?, placheholder:String, font:CGFloat, isPassWord:Bool, keyboardType:UIKeyboardType?)->UITextField {
         let textfield = UITextField(frame: frame)
         textfield.configTextField(nil, leftTextColor: nil, rightText: nil, rightTextColor: nil,leftImageName:leftImageName, rightImageName: rightImageName, leftView: nil, rightView: nil, font: font, placheholder: placheholder, isPassWord: isPassWord, borderStyle: nil, keyboardType: keyboardType)
         //下划线
-        let line = ZNLineView(frame: CGRectMake(0, frame.height-2, frame.width, 2))
-        line.color = UIColor.lightGrayColor()
+        let line = UIView(frame: CGRect(x: 0, y: frame.height-2, width: frame.width, height: 2))
+//        line.color = UIColor.lightGray
 //        line.contentMode = UIViewContentMode.ScaleToFill
         textfield.addSubview(line)
         
-        textfield.textColor = UIColor.whiteColor()
+        textfield.textColor = UIColor.white
         return textfield
     }
     
@@ -92,7 +92,7 @@ extension UITextField {
      
      - returns: 输入框对象
      */
-    class func createLabelTextField(frame:CGRect, leftText:String?,leftTextColor:UIColor?,rightText:String?,rightTextColor:UIColor?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType? )->UITextField {
+    class func createLabelTextField(_ frame:CGRect, leftText:String?,leftTextColor:UIColor?,rightText:String?,rightTextColor:UIColor?, placheholder:String?, font:CGFloat, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType? )->UITextField {
         let textfield = UITextField(frame: frame)
         textfield.configTextField(leftText, leftTextColor: leftTextColor, rightText: rightText, rightTextColor: rightTextColor,leftImageName:nil, rightImageName: nil, leftView: nil, rightView: nil, font: font, placheholder: placheholder, isPassWord: isPassWord, borderStyle: borderStyle, keyboardType: keyboardType)
         return textfield
@@ -115,51 +115,51 @@ extension UITextField {
      - parameter borderStyle:    边框样式
      - parameter keyboardType:   键盘样式
      */
-    func configTextField(leftText:String?, leftTextColor:UIColor?, rightText:String?,rightTextColor:UIColor?, leftImageName:String?, rightImageName:String?, leftView:UIView?, rightView:UIView?, font:CGFloat,placheholder:String?, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType? ) {
-        self.font = UIFont.systemFontOfSize(font)
-        self.textAlignment = NSTextAlignment.Left
-        self.secureTextEntry = isPassWord
+    func configTextField(_ leftText:String?, leftTextColor:UIColor?, rightText:String?,rightTextColor:UIColor?, leftImageName:String?, rightImageName:String?, leftView:UIView?, rightView:UIView?, font:CGFloat,placheholder:String?, isPassWord:Bool, borderStyle:UITextBorderStyle?, keyboardType:UIKeyboardType? ) {
+        self.font = UIFont.systemFont(ofSize: font)
+        self.textAlignment = NSTextAlignment.left
+        self.isSecureTextEntry = isPassWord
         if borderStyle != nil {  //边框
             self.borderStyle = borderStyle!
         }
         if keyboardType != nil { //键盘类型
-            self.keyboardType = UIKeyboardType.NumbersAndPunctuation
+            self.keyboardType = UIKeyboardType.numbersAndPunctuation
         }
         //关闭首字母大写
-        self.autocapitalizationType = UITextAutocapitalizationType.None
+        self.autocapitalizationType = UITextAutocapitalizationType.none
         //清除按钮
-        self.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.clearButtonMode = UITextFieldViewMode.whileEditing
         if placheholder != nil {
             self.placeholder = placheholder
         }
         if leftText != nil { //左边文字
-            let leftLabel = UILabel.createLabel(CGRectMake(0, 0, font*CGFloat(leftText!.length), frame.size.height), text: leftText!, textColor: leftTextColor!, font: font-2)
+            let leftLabel = UILabel.createLabel(CGRect(x: 0, y: 0, width: font*CGFloat(leftText!.length), height: frame.size.height), text: leftText!, textColor: leftTextColor!, font: font-2)
             self.leftView = leftLabel
-            self.leftViewMode = UITextFieldViewMode.Always
+            self.leftViewMode = UITextFieldViewMode.always
         }else if leftView != nil { //左视图
             self.leftView = leftView
-            self.leftViewMode = UITextFieldViewMode.Always
+            self.leftViewMode = UITextFieldViewMode.always
         }else if leftImageName != nil {//左图片
-            let leftImageView = UIImageView.createImageView(CGRectMake(0, 0, 50, frame.size.height), imageName: leftImageName!)
+            let leftImageView = UIImageView.createImageView(CGRect(x: 0, y: 0, width: 50, height: frame.size.height), imageName: leftImageName!)
             self.leftView = leftImageView
-            self.leftViewMode = UITextFieldViewMode.Always
+            self.leftViewMode = UITextFieldViewMode.always
         }
         
         if rightText != nil { //有边文字
-            let rightLabel = UILabel.createLabel(CGRectMake(0, 0, font*CGFloat(rightText!.length), frame.size.height), text: rightText!, textColor: rightTextColor!, font: font-2)
+            let rightLabel = UILabel.createLabel(CGRect(x: 0, y: 0, width: font*CGFloat(rightText!.length), height: frame.size.height), text: rightText!, textColor: rightTextColor!, font: font-2)
             self.rightView = rightLabel
-            self.rightViewMode = UITextFieldViewMode.Always
+            self.rightViewMode = UITextFieldViewMode.always
         }else if rightView != nil {//右边视图
             self.rightView = rightView
-            self.rightViewMode = UITextFieldViewMode.Always
+            self.rightViewMode = UITextFieldViewMode.always
         }else if rightImageName != nil {//右图片
-            let rightImageView = UIImageView.createImageView(CGRectMake(0, 0, 50, frame.size.height), imageName: rightImageName!)
+            let rightImageView = UIImageView.createImageView(CGRect(x: 0, y: 0, width: 50, height: frame.size.height), imageName: rightImageName!)
             self.rightView = rightImageView
-            self.rightViewMode = UITextFieldViewMode.Always
+            self.rightViewMode = UITextFieldViewMode.always
         }
 
 
-        self.textColor = UIColor.blackColor()
+        self.textColor = UIColor.black
     }
     
     

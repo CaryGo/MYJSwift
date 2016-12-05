@@ -40,19 +40,19 @@ class ZNLineView: UIView {
     var lineWith = 0.6                      //线宽 默任为 0.6
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         //1.取得图形上下文对象
         let  context = UIGraphicsGetCurrentContext()
         
         //2.创建路径对象
-        let path = CGPathCreateMutable();
+        let path = CGMutablePath();
         CGPathMoveToPoint(path, nil, 0, 0);//移动到指定位置（设置路径起点）
         if lineContentMode == ZNLineContentMode.Vertical {
            CGPathAddLineToPoint(path, nil, 0, rect.height);//绘制直线（从起始位置开始）

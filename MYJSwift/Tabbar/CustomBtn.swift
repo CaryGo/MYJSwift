@@ -21,14 +21,14 @@ class CustomBtn: UIControl {
         loadView(item)
     }
     
-    func loadView(item: UITabBarItem) {
+    func loadView(_ item: UITabBarItem) {
         
         let imgVX: CGFloat = (self.frame.size.width - 50) / 2
         let imgVY: CGFloat = 3
         let imgVW: CGFloat = 50
         let imgVH: CGFloat = 30
         
-        imgV = UIImageView(frame: CGRectMake(imgVX, imgVY, imgVW, imgVH))
+        imgV = UIImageView(frame: CGRect(x: imgVX, y: imgVY, width: imgVW, height: imgVH))
         imgV.image = item.image
         
         let labelX: CGFloat = (self.frame.size.width - 50) / 2
@@ -36,19 +36,19 @@ class CustomBtn: UIControl {
         let labelW: CGFloat = 50
         let labelH: CGFloat = 10
         
-        let label = UILabel(frame: CGRectMake(labelX, labelY, labelW, labelH))
+        let label = UILabel(frame: CGRect(x: labelX, y: labelY, width: labelW, height: labelH))
         label.text = item.title
-        label.textAlignment = .Center
+        label.textAlignment = .center
         //        label.backgroundColor = UIColor.clearColor()
-        label.font = UIFont.systemFontOfSize(12)
-        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = UIColor.white
         
         //判断数据中是否存在title
         if item.title != nil {
             self.addSubview(imgV)
             self.addSubview(label)
         }else {
-            imgV.frame = CGRectMake(imgVX, imgVY, imgVW, 42)
+            imgV.frame = CGRect(x: imgVX, y: imgVY, width: imgVW, height: 42)
             self.addSubview(imgV)
         }
         
